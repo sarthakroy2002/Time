@@ -45,13 +45,13 @@ public class MainActivity extends AppCompatActivity {
         mSecondsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked) {
                 if(mHoursSwitch.isChecked()) {
-                    dfsecTime[0] = new SimpleDateFormat("H:mm:ss a", Locale.getDefault());
+                    dfsecTime[0] = new SimpleDateFormat("H:mm:ss", Locale.getDefault());
                 }else{
                     dfsecTime[0] = new SimpleDateFormat("h:mm:ss a", Locale.getDefault());
                 }
             }else{
                 if(mHoursSwitch.isChecked()){
-                    dfsecTime[0] = new SimpleDateFormat("H:mm a", Locale.getDefault());
+                    dfsecTime[0] = new SimpleDateFormat("H:mm", Locale.getDefault());
                 }else{
                     dfsecTime[0] = new SimpleDateFormat("h:mm a", Locale.getDefault());
                 }
@@ -68,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }else{
                 if(mSecondsSwitch.isChecked()) {
-                    df24Time[0] = new SimpleDateFormat("H:mm:ss a", Locale.getDefault());
+                    df24Time[0] = new SimpleDateFormat("H:mm:ss", Locale.getDefault());
                 }else{
-                    df24Time[0] = new SimpleDateFormat("H:mm a", Locale.getDefault());
+                    df24Time[0] = new SimpleDateFormat("H:mm", Locale.getDefault());
                 }
             }
             mTime.setText(df24Time[0].format(Calendar.getInstance().getTime()));
