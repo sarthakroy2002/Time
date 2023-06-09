@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Time</string>
+    <string name="_24_hours_format">24 Hours format</string>
+    <string name="time">Time</string>
+    <string name="time_title">Time</string>
+    <string name="date_content">Date</string>
+    <string name="day">Day</string>
+    <string name="timezone">Timezone</string>
+    <string name="show_seconds">Show seconds</string>
+</resources>
