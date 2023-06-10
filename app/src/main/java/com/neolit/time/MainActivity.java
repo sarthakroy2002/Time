@@ -11,6 +11,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,54 +30,58 @@ public class MainActivity extends AppCompatActivity {
         MaterialSwitch mHoursSwitch = findViewById(R.id.hour_switch);
         MaterialSwitch mSecondsSwitch = findViewById(R.id.seconds_switch);
 
-        DateFormat dfTime = new SimpleDateFormat("h:mm a", Locale.getDefault());
-        mTime.setText(dfTime.format(Calendar.getInstance().getTime()));
-
-        DateFormat dfDate = new SimpleDateFormat("d MMM yyyy", Locale.getDefault());
-        mDate.setText(dfDate.format(Calendar.getInstance().getTime()));
-
-        DateFormat dfDay = new SimpleDateFormat("EEEE", Locale.getDefault());
-        mDay.setText(dfDay.format(Calendar.getInstance().getTime()));
-
-        DateFormat dfTz = new SimpleDateFormat("zzzz", Locale.getDefault());
-        mTimezone.setText(dfTz.format(Calendar.getInstance().getTime()));
-
-        final DateFormat[] dfsecTime = new DateFormat[1];
-        final DateFormat[] df24Time = new DateFormat[1];
+        AtomicReference<String> TimeFormat = new AtomicReference<>("h:mm a");
 
         mSecondsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked) {
                 if(mHoursSwitch.isChecked()) {
-                    dfsecTime[0] = new SimpleDateFormat("H:mm:ss", Locale.getDefault());
+                    TimeFormat.set("H:mm:ss");
                 }else{
-                    dfsecTime[0] = new SimpleDateFormat("h:mm:ss a", Locale.getDefault());
+                    TimeFormat.set("h:mm:ss a");
                 }
             }else{
                 if(mHoursSwitch.isChecked()){
-                    dfsecTime[0] = new SimpleDateFormat("H:mm", Locale.getDefault());
+                    TimeFormat.set("H:mm");
                 }else{
-                    dfsecTime[0] = new SimpleDateFormat("h:mm a", Locale.getDefault());
+                    TimeFormat.set("h:mm a");
                 }
             }
-            mTime.setText(dfsecTime[0].format(Calendar.getInstance().getTime()));
         });
 
         mHoursSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(!isChecked) {
                 if(mSecondsSwitch.isChecked()) {
-                    df24Time[0] = new SimpleDateFormat("h:mm:ss a", Locale.getDefault());
+                    TimeFormat.set("h:mm:ss a");
                 }else{
-                    df24Time[0] = new SimpleDateFormat("h:mm a", Locale.getDefault());
+                    TimeFormat.set("h:mm a");
                 }
             }else{
                 if(mSecondsSwitch.isChecked()) {
-                    df24Time[0] = new SimpleDateFormat("H:mm:ss", Locale.getDefault());
+                    TimeFormat.set("H:mm:ss");
                 }else{
-                    df24Time[0] = new SimpleDateFormat("H:mm", Locale.getDefault());
+                    TimeFormat.set("H:mm");
                 }
             }
-            mTime.setText(df24Time[0].format(Calendar.getInstance().getTime()));
         });
 
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(() -> {
+                    DateFormat dfTime = new SimpleDateFormat(TimeFormat.get(), Locale.getDefault());
+                    mTime.setText(dfTime.format(Calendar.getInstance().getTime()));
+
+                    DateFormat dfDate = new SimpleDateFormat("d MMM yyyy", Locale.getDefault());
+                    mDate.setText(dfDate.format(Calendar.getInstance().getTime()));
+
+                    DateFormat dfDay = new SimpleDateFormat("EEEE", Locale.getDefault());
+                    mDay.setText(dfDay.format(Calendar.getInstance().getTime()));
+
+                    DateFormat dfTz = new SimpleDateFormat("zzzz", Locale.getDefault());
+                    mTimezone.setText(dfTz.format(Calendar.getInstance().getTime()));
+
+                });
+            }
+        }, 0, 1000);
     }
 }
