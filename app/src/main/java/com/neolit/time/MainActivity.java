@@ -1,6 +1,8 @@
 package com.neolit.time;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button mStopwatch = findViewById(R.id.stopwatch_button);
+
         TextView mTime = findViewById(R.id.ttime);
         TextView mDate = findViewById(R.id.tdate);
         TextView mDay = findViewById(R.id.tday);
@@ -31,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
         MaterialSwitch mSecondsSwitch = findViewById(R.id.seconds_switch);
 
         AtomicReference<String> TimeFormat = new AtomicReference<>("h:mm a");
+
+        mStopwatch.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, stopwatch.class);
+            startActivity(i);
+        });
 
         mSecondsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked) {
