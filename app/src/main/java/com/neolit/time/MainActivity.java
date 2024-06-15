@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         AtomicReference<String> TimeFormat = new AtomicReference<>("h:mm a");
 
         mStopwatch.setOnClickListener(v -> {
-            Intent i = new Intent(MainActivity.this, stopwatch.class);
+            Intent i = new Intent(MainActivity.this, Stopwatch.class);
             startActivity(i);
         });
 
